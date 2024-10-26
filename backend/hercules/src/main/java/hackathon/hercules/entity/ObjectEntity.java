@@ -39,4 +39,16 @@ public class ObjectEntity implements Serializable {
     public void setServer(ServerEntity server) {
         this.server = server;
     }
+
+    public MetaDataEntity createMetaData(String key, String value) {
+        return new MetaDataEntity(this, key, value);
+    }
+
+    public ConnectionEntity createConnection(ObjectEntity other, ConnectionTypeEntity t) {
+        ConnectionEntity c = new ConnectionEntity();
+        c.setLeftObject(this);
+        c.setRightObject(other);
+        c.setConnectionType(t);
+        return c;
+    }
 }

@@ -9,13 +9,15 @@ import java.io.Serializable;
 public class UserEntity extends ObjectEntity implements Serializable {
     private Long id;
 
-    private String userName;
+    private String email;
+
+    private String password;
 
     public UserEntity() {
     }
 
-    public UserEntity(String userName) {
-        this.userName = userName;
+    public UserEntity(String email) {
+        this.email = email;
     }
 
     public Long getId() {
@@ -26,11 +28,19 @@ public class UserEntity extends ObjectEntity implements Serializable {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

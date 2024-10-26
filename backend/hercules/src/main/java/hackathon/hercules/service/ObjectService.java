@@ -1,6 +1,7 @@
 package hackathon.hercules.service;
 
 import hackathon.hercules.entity.ObjectEntity;
+import hackathon.hercules.repository.MetaDataRepository;
 import hackathon.hercules.repository.ObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
