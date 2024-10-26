@@ -29,3 +29,13 @@
         </v-footer>
     </v-app>
 </template>
+
+<script>
+import PostForm from './views/PostView.vue';
+
+export default {
+    components: {
+        PostForm,
+    },
+};
+</script>
