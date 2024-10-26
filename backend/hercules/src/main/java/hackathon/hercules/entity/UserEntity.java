@@ -12,15 +12,13 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-    private String lastName;
+    private String userName;
 
     public UserEntity() {
     }
 
-    public UserEntity(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public UserEntity(String userName) {
+        this.userName = userName;
     }
 
     public Long getId() {
@@ -31,19 +29,11 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

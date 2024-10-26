@@ -13,7 +13,7 @@ object -> post_role(#post.post_id, #role.role_id, read, write, delete)
 
 object -> connection(#connection_id, object.objectid, object.object_id, type.type_id)
 
-object -> type(#type_id, name)
+object -> connection_type(#type_id, name)
 
 object -> metadata(#object_id, #key, value)
 
