@@ -17,7 +17,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(String firstName, String middleName, String lastName,
+    public void registerUser(String firstName, String middleName, String lastName,
                              String email, String phoneNumber, String password) {
         User user = new User();
         user.setFirstName(firstName);
@@ -26,10 +26,10 @@ public class AuthService {
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setPassword(passwordEncoder.encode(password));
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
-    public User authenticateUser(String email, String password) {
+    public void authenticateUser(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new RuntimeException("User not found");
@@ -37,6 +37,5 @@ public class AuthService {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
-        return user;
     }
 }

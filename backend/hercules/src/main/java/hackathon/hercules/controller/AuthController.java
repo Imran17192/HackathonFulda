@@ -52,16 +52,6 @@ public class AuthController {
         return ResponseEntity.ok("Welcome to the Home Page!");
     }
 
-    public static class AuthResponse {
-        private String message;
-        private boolean success;
-
-        public AuthResponse(String message, boolean success) {
-            this.message = message;
-            this.success = success;
-        }
-
-        public String getMessage() { return message; }
-        public boolean isSuccess() { return success; }
+    public record AuthResponse(String message, boolean success) {
     }
 }

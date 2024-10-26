@@ -1,7 +1,5 @@
 package hackathon.hercules.component;
 
-import java.util.List;
-
 import hackathon.hercules.entity.User;
 import hackathon.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class AppRunner implements CommandLineRunner {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Override
     public void run(String... args) {
