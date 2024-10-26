@@ -1,11 +1,23 @@
 package hackathon.hercules.entity;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 public class ServerEntity extends ObjectEntity{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long server_id;
+
     private String link;
 
     public ServerEntity() {}
+
+    public ServerEntity(Long server_id, String link) {
+        this.server_id = server_id;
+        this.link = link;
+    }
 
     public Long getServer_id() {
         return server_id;
@@ -23,8 +35,4 @@ public class ServerEntity extends ObjectEntity{
         this.link = link;
     }
 
-    public ServerEntity(Long server_id, String link) {
-        this.server_id = server_id;
-        this.link = link;
-    }
 }
