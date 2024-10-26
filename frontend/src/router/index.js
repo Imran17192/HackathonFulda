@@ -6,28 +6,38 @@ import HomeView from "@/views/HomeView.vue";
 import PostView from "@/views/PostView.vue";
 import GraphView from '@/views/GraphView.vue';
 import ProfileView from "@/views/ProfileView.vue";
+import { useAuthStore } from '@/stores/auth.js';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
-            redirect: '/login',
+            redirect: '/home',
         },
         {
             path: '/login',
             name: 'login',
-            component: LoginView
+            component: LoginView,
+            meta: {
+                requiresUnauth: true
+            }
         },
         {
             path: '/signup',
             name: 'signup',
-            component: SignupView
+            component: SignupView,
+            meta: {
+                requiresUnauth: true
+            }
         },
         {
             path: '/home',
             name: 'home',
-            component: HomeView
+            component: HomeView,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/new-post',
@@ -49,6 +59,15 @@ const router = createRouter({
             component: NotFoundView,
         },
     ]
+})
+
+router.beforeEach((to, from) => {
+    if (! useAuthStore().isAuthenticated && to.meta.requiresAuth) {
+        return '/login'
+    }
+    if (useAuthStore().isAuthenticated && to.meta.requiresUnauth) {
+        return '/'
+    }
 })
 
 export default router
