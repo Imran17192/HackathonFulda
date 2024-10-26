@@ -5,10 +5,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity
-public class UserEntity extends ObjectEntity{
+import java.io.Serializable;
 
-    @Id
+@Entity
+public class UserEntity extends ObjectEntity implements Serializable {
+
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class PostEntity extends ObjectEntity{
-    @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long post_id;
 

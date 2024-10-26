@@ -8,9 +8,9 @@ import javax.persistence.Entity;
 @Entity
 @IdClass(MetaDataId.class)
 public class MetaDataEntity extends ObjectEntity {
-    @Id
+
     private ObjectEntity ownerObject;
-    @Id
+
     private String key;
 
     private String value;

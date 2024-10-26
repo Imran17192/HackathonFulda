@@ -5,9 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.io.Serializable;
+
 @Entity
-public class ConnectionTypeEntity extends ObjectEntity {
-    @Id
+public class ConnectionTypeEntity extends ObjectEntity implements Serializable {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long connectionType_id;
 

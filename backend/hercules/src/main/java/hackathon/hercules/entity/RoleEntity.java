@@ -5,9 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.io.Serializable;
+
 @Entity
-public class RoleEntity extends ObjectEntity{
-    @Id
+public class RoleEntity extends ObjectEntity implements Serializable {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long role_id;
 

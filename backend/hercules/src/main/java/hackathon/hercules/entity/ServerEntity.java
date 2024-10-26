@@ -8,7 +8,6 @@ import jakarta.persistence.Entity;
 @Entity
 public class ServerEntity extends ObjectEntity{
 
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long server_id;
 

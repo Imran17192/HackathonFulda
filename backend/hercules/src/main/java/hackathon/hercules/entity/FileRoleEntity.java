@@ -5,7 +5,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 public class FileRoleEntity extends ObjectEntity {
-    @Id
+
     private FileEntity file;
 
     private RoleEntity role;

@@ -5,10 +5,10 @@ import jakarta.persistence.*;
 @Entity
 @IdClass(PostRoleId.class)
 public class PostRoleEntity extends ObjectEntity{
-    @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long post_id;
-    @Id
+
     RoleEntity role;
     private Boolean read;
     private Boolean write;

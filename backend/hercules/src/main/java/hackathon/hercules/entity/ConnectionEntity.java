@@ -7,8 +7,8 @@ import jakarta.persistence.Id;
 
 @Entity
 public class ConnectionEntity extends ObjectEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+
     private Long connection_id;
 
     private ObjectEntity leftObject;

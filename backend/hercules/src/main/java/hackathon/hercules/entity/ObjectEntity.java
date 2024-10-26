@@ -1,13 +1,11 @@
 package hackathon.hercules.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import javax.persistence.Entity;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 
 @Entity
-public class ObjectEntity {
+public class ObjectEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long object_id;

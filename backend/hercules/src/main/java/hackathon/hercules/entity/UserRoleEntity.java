@@ -5,9 +5,9 @@ import jakarta.persistence.*;
 @Entity
 @IdClass(UserRoleId.class)
 public class UserRoleEntity extends ObjectEntity{
-    @Id
+
     private UserEntity user;
-    @Id
+
     private RoleEntity role;
 
     public UserRoleEntity() {
