@@ -38,9 +38,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> payload) {
         try {
-            String username = payload.get("username");
+            String email = payload.get("email");
             String password = payload.get("password");
-            authService.authenticateUser(username, password);
+            authService.authenticateUser(email, password);
             return ResponseEntity.ok(new AuthResponse("Login successful", true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse("Invalid credentials", false));

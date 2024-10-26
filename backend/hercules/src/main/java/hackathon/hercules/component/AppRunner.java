@@ -16,8 +16,9 @@ public class AppRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-
-        System.out.println("Test");
+        for (User user : userService.getAllUsers()) {
+            System.out.println(user);
+        }
     }
 
 }

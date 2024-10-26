@@ -7,6 +7,7 @@ import { errorMessages } from '@/config/errorMessages.js';
 import { useSnackbarStore } from '@/stores/snackbar.js';
 import BaseCardComponent from '@/components/ui/BaseCardComponent.vue';
 import BaseButtonComponent from '@/components/ui/BaseButtonComponent.vue';
+import axios from 'axios';
 
 const snackbarStore = useSnackbarStore();
 const { showSnackbar } = snackbarStore;
@@ -29,14 +30,14 @@ async function onSuccess(values) {
     console.log('success', values);
     console.log('submitForm', values);
     try {
-         const data = await signup(values);
-         console.log('success', data);
-         showSnackbar('Signup successful. You can now login.', 'success');
-     } catch (error) {
-         showSnackbar(error, 'error');
-     } finally {
-         showSignupForm.value = false;
-     }
+        const data = await axios.post('http://localhost:8080/api/auth/signup', values);
+        console.log('success', data);
+        showSnackbar('Signup successful. You can now login.', 'success');
+        
+    } catch (error) {
+        showSnackbar(error, 'error');
+    } finally {
+    }
 }
 
 function onInvalidSubmit({ values, errors, results }) {
