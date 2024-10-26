@@ -1,6 +1,9 @@
 <script setup>
     import { RouterView } from 'vue-router'
     import TheFooter from '@/components/layout/TheFooter.vue';
+    import { useAuthStore } from '@/stores/auth.js';
+
+    const { isAuthenticated } = useAuthStore();
 </script>
 
 <template>
@@ -9,13 +12,22 @@
             <v-app-bar-title>
                 <v-btn to="/" >Home</v-btn>
             </v-app-bar-title>
-            <v-btn icon="mdi-account"></v-btn>
-            <v-btn to="/login">
-                Login
-            </v-btn>
-            <v-btn to="/signup">
-                Signup
-            </v-btn>
+
+            <template v-if="isAuthenticated">
+                <v-btn icon="mdi-account"></v-btn>
+                <v-btn to="/login">
+                    Logout
+                </v-btn>
+            </template>
+
+            <template v-else>
+                <v-btn to="/login">
+                    Login
+                </v-btn>
+                <v-btn to="/signup">
+                    Signup
+                </v-btn>
+            </template>
         </v-app-bar>
 
         <v-main>
