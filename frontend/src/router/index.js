@@ -5,6 +5,7 @@ import NotFoundView from '@/views/NotFoundView.vue';
 import HomeView from "@/views/HomeView.vue";
 import PostView from "@/views/PostView.vue";
 import GraphView from '@/views/GraphView.vue';
+import ProfileView from "@/views/ProfileView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,11 @@ const router = createRouter({
             path: '/graph',
             name: 'graph',
             component: GraphView
+        },
+        {
+            path: '/profile-view',
+            name: 'profile-view',
+            component: ProfileView
         },
         {
             path: '/:notFound(.*)',

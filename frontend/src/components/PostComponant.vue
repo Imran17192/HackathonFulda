@@ -14,13 +14,11 @@
         </div>
         <div class="post-footer">
             <div class="interaction-stats">
-                <span>321 Erreichte Personen</span>
-                <span>34 Interaktionen</span>
             </div>
             <div class="actions">
-                <button class="btn">Gefällt mir</button>
-                <button class="btn">Kommentieren</button>
-                <button class="btn">Teilen</button>
+                <button class="thumb-button" @click="incrementLike">
+                    👍
+                </button>
             </div>
         </div>
     </div>
@@ -73,6 +71,16 @@ export default {
 
 .header-text p {
     margin: 4px 0;
+}
+
+.thumb-button {
+    background: none;
+    border: none;
+    font-size: 30px; /* Increase font size for larger button */
+    padding: 10px; /* Add padding for larger button appearance */
+    cursor: pointer;
+    color: #007bff;
+    margin-right: 10px;
 }
 
 .interaction-stats span {
