@@ -24,11 +24,19 @@ ext {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.3.5'
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+	// https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+	implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.47.0.0'
+	// https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-community-dialects
+	implementation group: 'org.hibernate.orm', name: 'hibernate-community-dialects', version: '6.6.1.Final'
+
 }
 
 
