@@ -1,12 +1,14 @@
 package hackathon.hercules.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Id;
+import javax.persistence.Entity;
+
 
 @Entity
 @IdClass(MetaDataEntity.class)
 public class MetaDataEntity extends ObjectEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ObjectEntity ownerObject;
     @Id
     private String key;
