@@ -1,59 +1,91 @@
 # Import the necessary functions and classes
+from collections import Counter
+
 from nlp.keyextractor import extract_keywords
 from backend.graph.graph_manager import add_to_graph, get_graph
 from models.post_model import PostData
+from keybert import KeyBERT
+from sentence_transformers import SentenceTransformer, util
+import json
 
-def find_similar_root(keywords, existing_roots, threshold=0.5):
+# Initialize KeyBERT model
+model = KeyBERT("distilbert-base-nli-mean-tokens")
+
+
+def generate_root(content: str) -> str:
     """
-    Find a similar root in the existing graph based on keyword overlap.
-    :param keywords: List of keywords from the new post
-    :param existing_roots: List of existing roots in the graph
-    :param threshold: Similarity threshold to consider two topics the same
-    :return: The similar root or None if no similar root is found
+    Uses KeyBERT to generate a three-word root summary of the post content.
+    This serves as the root node in the graph.
     """
-    keyword_set = set(keywords)
-    for root in existing_roots:
-        root_set = set(root.split())  # Split root words for comparison
-        similarity = len(keyword_set & root_set) / len(keyword_set | root_set)  # Jaccard similarity
-        if similarity >= threshold:
-            return root
-    return None
+    keywords = model.extract_keywords(content, keyphrase_ngram_range=(3, 3), stop_words="english", top_n=1)
+    root_summary = keywords[0][0] if keywords else "General"
+    return root_summary
+
+
+def determine_common_root(roots):
+    """
+    Determines the most common word across all roots to serve as the new unified root.
+    """
+    all_words = []
+    for root in roots:
+        all_words.extend(root.split())
+
+    most_common_word, _ = Counter(all_words).most_common(1)[0]
+    return most_common_word
+
+
+def merge_all_trees():
+    """
+    Merges all existing trees in the graph into a nested structure with the most common word as the new root.
+    """
+    graph = get_graph()
+
+    # Determine the new root based on the most common word
+    new_root = determine_common_root(graph.keys())
+    print(f"Merging all trees under the new root: {new_root}")
+
+    # Create a new nested structure with the most common root
+    nested_graph = {new_root: {}}
+
+    # Add each existing root as a sub-node under the new root
+    for existing_root, keywords in graph.items():
+        nested_graph[new_root][existing_root] = keywords
+
+    # Clear the graph and update with the nested structure
+    graph.clear()
+    graph.update(nested_graph)  # Replace with the new nested structure
+
+
 
 # Function to add post content to the graph
 def process_post(content: str):
-    # Step 1: Extract Keywords
+    # Step 1: Generate root using KeyBERT
+    root = generate_root(content)
+    print(f"Generated root: {root}")
+
+    # Step 2: Extract Keywords (to add as branches)
     keywords = extract_keywords(content)
-    root = keywords[0] if keywords else "General"
 
-    # Step 2: Check for similar root in existing graph
-    graph = get_graph()
-    similar_root = find_similar_root(keywords, graph.keys())
+    # Step 3: Add to graph
+    add_to_graph(root, keywords)
 
-    if similar_root:
-        print(f"Adding to existing topic tree: {similar_root}")
-        add_to_graph(similar_root, keywords[1:])  # Add keywords under similar root
-    else:
-        print(f"Creating new tree for topic: {root}")
-        add_to_graph(root, keywords[1:])  # Start a new tree
 
-# Sample post data
+# Sample posts
 sample_post_1 = """
-I recently developed a fully functional e-commerce system for a startup.
-It includes a user-friendly frontend, a secure backend, and a reliable database structure.
-The platform integrates payment providers, customer management, and inventory tracking.
-This solution improves user experience and simplifies the management of products and orders.
+Our company developed a chatbot for an e-commerce platform to enhance customer support.
+The chatbot can answer frequently asked questions, manage orders, and offer product recommendations.
+This feature has improved customer satisfaction and reduced operational costs.
 """
 
 sample_post_2 = """
-Our team created a recommendation engine to personalize product suggestions for an online store.
-This system analyzes customer behavior and purchase history using machine learning techniques.
-It enhances the shopping experience by suggesting products customers are more likely to buy.
+We built a recommendation engine to personalize product suggestions for an e-commerce site.
+The engine analyzes user behavior and past purchases using machine learning.
+This tool enhances customer satisfaction by suggesting products aligned with customer preferences.
 """
 
 sample_post_3 = """
-We deployed a chatbot to improve customer service for an e-commerce platform.
-The chatbot can handle common inquiries, manage orders, and provide personalized product recommendations.
-This feature has significantly increased customer satisfaction and reduced support costs.
+Our team created a data analysis system for an e-commerce business to improve customer experience.
+This system tracks user interactions and provides insights into customer preferences, helping tailor product recommendations.
 """
 
 # Process each sample post
@@ -66,7 +98,33 @@ process_post(sample_post_2)
 print("\nProcessing Sample Post 3:")
 process_post(sample_post_3)
 
+# Merge all trees under the most common root word
+merge_all_trees()
+
+
 # Retrieve and display the final graph structure
 graph = get_graph()
 print("\nGenerated Graph Structure:")
 print(graph)
+
+
+def convert_to_d3_format(graph):
+    # Determine the main root node based on the most common word
+    main_root = determine_common_root(graph.keys())
+
+    # Create the root structure for D3
+    d3_graph = {"name": main_root, "children": []}
+
+    # For each sub-root in the original graph
+    for sub_root, keywords in graph.items():
+        sub_node = {
+            "name": sub_root,
+            "children": [{"name": keyword} for keyword in keywords]
+        }
+        d3_graph["children"].append(sub_node)
+
+    return json.dumps(d3_graph, indent=2)  # Convert to JSON format with indentation
+
+# Assuming you have your `graph` data ready
+d3_ready_graph = convert_to_d3_format(graph)
+print(d3_ready_graph)  # This JSON can now be used with D3.js

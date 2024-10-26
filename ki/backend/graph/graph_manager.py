@@ -11,3 +11,4 @@ def add_to_graph(root: str, keywords: list):
 def get_graph():
     # Return the current graph structure as a regular dictionary
     return dict(graph_data)
+
