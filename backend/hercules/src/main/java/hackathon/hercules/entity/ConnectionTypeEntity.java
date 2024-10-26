@@ -1,9 +1,11 @@
 package hackathon.hercules.entity;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+@Entity
 public class ConnectionTypeEntity extends ObjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

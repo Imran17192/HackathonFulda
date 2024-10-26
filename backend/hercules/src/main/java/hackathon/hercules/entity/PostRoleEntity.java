@@ -1,9 +1,9 @@
 package hackathon.hercules.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
+@IdClass(RPostRoleID.class)
 public class PostRoleEntity extends ObjectEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
