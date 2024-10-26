@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class UserRoleEntity extends ObjectEntity{
     @Id
     private UserEntity user;
-
     @Id
     private RoleEntity role;
 
