@@ -108,23 +108,38 @@ print("\nGenerated Graph Structure:")
 print(graph)
 
 
-def convert_to_d3_format(graph):
-    # Determine the main root node based on the most common word
+def convert_to_d3_force_format(graph):
+    # Determine main root node
     main_root = determine_common_root(graph.keys())
 
-    # Create the root structure for D3
-    d3_graph = {"name": main_root, "children": []}
+    # Initialize nodes and links for D3 format
+    nodes = [{"id": main_root, "group": 1}]
+    links = []
 
-    # For each sub-root in the original graph
     for sub_root, keywords in graph.items():
-        sub_node = {
-            "name": sub_root,
-            "children": [{"name": keyword} for keyword in keywords]
-        }
-        d3_graph["children"].append(sub_node)
+        # Add sub-root node
+        nodes.append({"id": sub_root, "group": 2})
 
-    return json.dumps(d3_graph, indent=2)  # Convert to JSON format with indentation
+        # Link main root to each sub-root
+        links.append({"source": main_root, "target": sub_root, "value": 1})
 
-# Assuming you have your `graph` data ready
-d3_ready_graph = convert_to_d3_format(graph)
-print(d3_ready_graph)  # This JSON can now be used with D3.js
+        # Add keyword nodes and link to sub-root
+        for keyword in keywords:
+            nodes.append({"id": keyword, "group": 3})
+            links.append({"source": sub_root, "target": keyword, "value": 1})
+
+    # Remove duplicates from nodes list
+    unique_nodes = {node['id']: node for node in nodes}.values()
+
+    # Return formatted data
+    return {"nodes": list(unique_nodes), "links": links}
+
+
+# Convert graph to D3 force-compatible format
+d3_force_ready_graph = convert_to_d3_force_format(graph)
+
+# Write the D3-ready graph data to a JSON file
+with open("../frontend/graph.json", 'w') as file:
+    json.dump(d3_force_ready_graph, file, indent=4)
+
+print("D3 force-compatible graph data saved to 'graph.json'")

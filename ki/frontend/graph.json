@@ -1,0 +1,79 @@
+{
+    "nodes": [
+        {
+            "id": "customer",
+            "group": 3
+        },
+        {
+            "id": "customer support chatbot",
+            "group": 2
+        },
+        {
+            "id": "chatbot",
+            "group": 3
+        },
+        {
+            "id": "engine analyzes user",
+            "group": 2
+        },
+        {
+            "id": "engine",
+            "group": 3
+        },
+        {
+            "id": "business improve customer",
+            "group": 2
+        },
+        {
+            "id": "system",
+            "group": 3
+        }
+    ],
+    "links": [
+        {
+            "source": "customer",
+            "target": "customer support chatbot",
+            "value": 1
+        },
+        {
+            "source": "customer support chatbot",
+            "target": "chatbot",
+            "value": 1
+        },
+        {
+            "source": "customer support chatbot",
+            "target": "customer",
+            "value": 1
+        },
+        {
+            "source": "customer",
+            "target": "engine analyzes user",
+            "value": 1
+        },
+        {
+            "source": "engine analyzes user",
+            "target": "engine",
+            "value": 1
+        },
+        {
+            "source": "engine analyzes user",
+            "target": "customer",
+            "value": 1
+        },
+        {
+            "source": "customer",
+            "target": "business improve customer",
+            "value": 1
+        },
+        {
+            "source": "business improve customer",
+            "target": "system",
+            "value": 1
+        },
+        {
+            "source": "business improve customer",
+            "target": "customer",
+            "value": 1
+        }
+    ]
+}
