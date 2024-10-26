@@ -5,6 +5,7 @@ import { useFormHandler } from '@/composables/formHandler.js';
 import { errorMessages } from '@/config/errorMessages.js';
 import BaseButtonComponent from '@/components/ui/BaseButtonComponent.vue';
 import BaseCardComponent from '@/components/ui/BaseCardComponent.vue';
+import axios from 'axios';
 
 const schema = yup.object({
     email: yup.string().required(errorMessages.required('Email')).email(errorMessages.type.email),
@@ -13,8 +14,19 @@ const schema = yup.object({
 
 const { fields, errors, submitForm } = useFormHandler(schema, onSuccess, onInvalidSubmit);
 
-function onSuccess(values) {
-    console.log('val success', values);
+async function onSuccess(values) {
+    console.log('success', values);
+    console.log('submitForm', values);
+    try {
+        const data = await axios.post('http://localhost:8080/api/auth/login', values);
+        console.log('success', data);
+        // showSnackbar('Signup successful. You can now login.', 'success');
+
+    } catch (error) {
+        console.log(error);
+        // showSnackbar(error, 'error');
+    } finally {
+    }
 }
 
 function onInvalidSubmit({ values, errors, results }) {
