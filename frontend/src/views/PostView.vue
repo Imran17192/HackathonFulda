@@ -8,7 +8,7 @@
             </div>
             <div class="input-group">
                 <label for="tags">Tags:</label>
-                <vue3-tags-input v-model:tags="tags" placeholder="input tags" class="tags-input" />
+                <vue3-tags-input v-model="message.tags" placeholder="input tags" class="tags-input" />
             </div>
             <div class="input-group">
                 <label for="content">Nachricht:</label>
@@ -18,8 +18,8 @@
             <div v-if="showFileUpload" class="input-group">
                 <label for="file-upload">Dateien hochladen:</label>
                 <input type="file" id="file-upload" @change="handleFileUpload" multiple />
-                <div v-if="files.length" class="file-preview">
-                    <div v-for="(file, index) in files" :key="index" class="file-item">
+                <div v-if="message.files.length" class="file-preview">
+                    <div v-for="(file, index) in message.files" :key="index" class="file-item">
                         <span>{{ file.name }}</span>
                         <button type="button" @click="removeFile(index)">Entfernen</button>
                     </div>
@@ -72,8 +72,8 @@ export default defineComponent({
                 const response = await axios.post('http://localhost:8080/api/auth/messages', {
                     subject: this.message.subject,
                     content: this.message.content,
-                    tags: this.tags,
-                    files: this.files
+                    tags: this.message.tags,
+                    files: this.message.files
                 });
                 if (response?.status === 200) {
                     console.log("Nachricht erfolgreich gesendet:", response.data);
