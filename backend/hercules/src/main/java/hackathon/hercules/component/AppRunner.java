@@ -17,15 +17,7 @@ public class AppRunner implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        User user = new User();
-        user.setFirstName("John");
-        user.setLastName("Doe");
-
-        userService.createUser(user);
-
-        List<User> users = userService.getAllUsers();
-        users.forEach((u) -> System.out.println(u.getFirstName()+ " " + u.getLastName()));
-
+        System.out.println("Test");
     }
 
 }

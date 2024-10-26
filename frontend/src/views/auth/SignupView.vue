@@ -28,15 +28,15 @@ const { fields, errors, submitForm } = useFormHandler(schema, onSuccess, onInval
 async function onSuccess(values) {
     console.log('success', values);
     console.log('submitForm', values);
-    // try {
-    //     const data = await signup(values);
-    //     console.log('success', data);
-    //     showSnackbar('Signup successful. You can now login.', 'success');
-    // } catch (error) {
-    //     showSnackbar(error, 'error');
-    // } finally {
-    //     showSignupForm.value = false;
-    // }
+    try {
+         const data = await signup(values);
+         console.log('success', data);
+         showSnackbar('Signup successful. You can now login.', 'success');
+     } catch (error) {
+         showSnackbar(error, 'error');
+     } finally {
+         showSignupForm.value = false;
+     }
 }
 
 function onInvalidSubmit({ values, errors, results }) {
