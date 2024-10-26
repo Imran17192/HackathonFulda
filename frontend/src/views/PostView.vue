@@ -8,10 +8,11 @@
             </div>
             <div class="input-group">
                 <label for="content">Nachricht:</label>
-                <textarea id="content" v-model="message.content" rows="10" required></textarea>
+                <textarea id="content" v-model="message.content" rows="10" maxlength="1500" required></textarea>
+                <p class="char-count">{{ 1500 - message.content.length }} Zeichen verbleiben</p>
             </div>
             <div class="actions">
-                <button type="submit" class="send-button">Senden</button>
+                <button type="submit" class="send-button" :disabled="message.content.length > 1500">Senden</button>
                 <div class="icons">
                     <i class="icon">A</i>
                     <i class="icon">📎</i>
@@ -74,6 +75,12 @@ textarea {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+}
+
+.char-count {
+    font-size: 12px;
+    color: #666;
+    text-align: right;
 }
 
 .actions {
