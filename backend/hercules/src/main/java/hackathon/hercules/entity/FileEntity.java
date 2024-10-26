@@ -6,11 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 
-
 @Entity
 public class FileEntity extends ObjectEntity{
-
-
     private Long file_id;
 
     private String path;

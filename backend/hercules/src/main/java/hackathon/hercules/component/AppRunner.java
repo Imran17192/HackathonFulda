@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class AppRunner implements CommandLineRunner {
 
     @Autowired
-    ObjectService objectService;
     UserService userService;
+    ObjectService objectService;
     FileService fileService;
     RoleService roleService;
     ServerService serverService;
@@ -30,8 +30,5 @@ public class AppRunner implements CommandLineRunner {
 
         List<UserEntity> users = userService.getAllUsers();
         users.forEach((u) -> System.out.println(u.getUserName()));
-
-
     }
-
 }
