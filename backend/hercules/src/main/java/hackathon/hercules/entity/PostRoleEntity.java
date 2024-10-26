@@ -11,17 +11,17 @@ public class PostRoleEntity extends ObjectEntity{
     RoleEntity role;
     private Boolean read;
     private Boolean write;
-    private  Boolean delete;
+    private  Boolean deleteRight;
 
     public PostRoleEntity() {
     }
 
-    public PostRoleEntity(Long post_id, RoleEntity role, Boolean read, Boolean write, Boolean delete) {
+    public PostRoleEntity(Long post_id, RoleEntity role, Boolean read, Boolean write, Boolean deleteRight) {
         this.post_id = post_id;
         this.role = role;
         this.read = read;
         this.write = write;
-        this.delete = delete;
+        this.deleteRight = deleteRight;
     }
 
     public Long getPost_id() {
@@ -57,10 +57,10 @@ public class PostRoleEntity extends ObjectEntity{
     }
 
     public Boolean getDelete() {
-        return delete;
+        return deleteRight;
     }
 
-    public void setDelete(Boolean delete) {
-        this.delete = delete;
+    public void setDelete(Boolean deleteRight) {
+        this.deleteRight = deleteRight;
     }
 }

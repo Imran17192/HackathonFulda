@@ -15,16 +15,20 @@ public class ObjectEntity implements Serializable {
     public ObjectEntity() {
     }
 
+    public ObjectEntity(Long object_id) {
+        this.object_id = object_id;
+    }
+
     public ObjectEntity(Long object_id, ServerEntity server) {
         this.object_id = object_id;
         this.server = server;
     }
 
-    public Long getObject_id() {
+    public Long getId() {
         return object_id;
     }
 
-    public void setObject_id(Long object_id) {
+    public void setId(Long object_id) {
         this.object_id = object_id;
     }
 

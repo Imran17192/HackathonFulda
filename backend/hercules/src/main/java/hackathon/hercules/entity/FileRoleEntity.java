@@ -1,11 +1,9 @@
 package hackathon.hercules.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class FileRoleEntity extends ObjectEntity {
 
     private FileEntity file;
@@ -16,14 +14,14 @@ public class FileRoleEntity extends ObjectEntity {
 
     private Boolean write;
 
-    private Boolean delete;
+    private Boolean deleteRight;
 
     public FileRoleEntity() {
     }
 
-    public FileRoleEntity(FileEntity file, Boolean delete, Boolean write, Boolean read, RoleEntity role) {
+    public FileRoleEntity(FileEntity file, Boolean deleteRight, Boolean write, Boolean read, RoleEntity role) {
         this.file = file;
-        this.delete = delete;
+        this.deleteRight = deleteRight;
         this.write = write;
         this.read = read;
         this.role = role;
@@ -61,11 +59,9 @@ public class FileRoleEntity extends ObjectEntity {
         this.role = role;
     }
 
-    public Boolean getDelete() {
-        return delete;
-    }
+    public Boolean getDelete() { return deleteRight; }
 
-    public void setDelete(Boolean delete) {
-        this.delete = delete;
+    public void setDelete(Boolean deleteRight) {
+        this.deleteRight = deleteRight;
     }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class MetaDataEntity extends ObjectEntity {
 
     private ObjectEntity ownerObject;
