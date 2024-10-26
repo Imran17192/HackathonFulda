@@ -15,6 +15,8 @@ public class AppRunner implements CommandLineRunner {
     @Autowired
     UserService userService;
     //ObjectService objectService;
+
+    @Autowired
     FileService fileService;
     //RoleService roleService;
     //ServerService serverService;
@@ -25,7 +27,7 @@ public class AppRunner implements CommandLineRunner {
     public void run(String... args) {
         FileEntity file = new FileEntity();
         file.setPath("test");
-        //fileService.createFile(file);
+        fileService.createFile(file);
 
         UserEntity user = new UserEntity();
         user.setUserName("Jane Doe");
@@ -35,6 +37,6 @@ public class AppRunner implements CommandLineRunner {
         List<UserEntity> users = userService.getAllUsers();
         users.forEach((u) -> System.out.println(u.getUserName()));
 
-        //fileService.getAllFiles().forEach((f) -> System.out.println(f.getPath()));
+        fileService.getAllFiles().forEach((f) -> System.out.println(f.getPath()));
     }
 }
