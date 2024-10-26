@@ -4,10 +4,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-public class PostRoleId {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long post_id;
-    @Id
+import java.io.Serializable;
+
+public class PostRoleId implements Serializable {
+    UserEntity user;
     RoleEntity role;
+
+    public PostRoleId(UserEntity user, RoleEntity role) {
+        this.user = user;
+        this.role = role;
+    }
 }

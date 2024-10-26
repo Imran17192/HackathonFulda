@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 
 
 @Entity
-@IdClass(MetaDataEntity.class)
+@IdClass(MetaDataId.class)
 public class MetaDataEntity extends ObjectEntity {
     @Id
     private ObjectEntity ownerObject;
