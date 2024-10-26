@@ -56,9 +56,9 @@ export default defineComponent({
             message: {
                 subject: '',
                 content: '',
+                tags: ['VUE', 'HTML', 'CSS'],
+                files: [],
             },
-            tags: ['VUE', 'HTML', 'CSS'],
-            files: [],
             showFileUpload: false
         }
     },
@@ -69,7 +69,7 @@ export default defineComponent({
             console.log("Dateien:", this.files);
 
             try {
-                const response = await axios.post('http://localhost:8080/api/messages', {
+                const response = await axios.post('http://localhost:8080/api/auth/messages', {
                     subject: this.message.subject,
                     content: this.message.content,
                     tags: this.tags,

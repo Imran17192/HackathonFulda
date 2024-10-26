@@ -1,21 +1,27 @@
 package hackathon.hercules.controller;
 
+import hackathon.hercules.entity.Post;
 import hackathon.hercules.service.AuthService;
+import hackathon.hercules.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class MainController {
     private final AuthService authService;
+    private final PostService postService;
 
     @Autowired
-    public AuthController(AuthService authService) {
+    public MainController(AuthService authService, PostService postService) {
         this.authService = authService;
+        this.postService = postService;
     }
 
     @PostMapping("/signup")
@@ -44,6 +50,16 @@ public class AuthController {
             return ResponseEntity.ok(new AuthResponse("Login successful", true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse("Invalid credentials", false));
+        }
+    }
+
+    @PostMapping("/messages")
+    public ResponseEntity<?> post(@RequestBody Map<Object, Object> payload) {
+        try {
+            System.out.println(payload);
+            return ResponseEntity.ok(new AuthResponse("Post created successfully", true));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AuthResponse("Post creation failed", false));
         }
     }
 
