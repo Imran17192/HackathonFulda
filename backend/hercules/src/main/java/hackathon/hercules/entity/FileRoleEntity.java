@@ -4,7 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-public class FileRoleEntity {
+public class FileRoleEntity extends ObjectEntity {
     @Id
     private FileEntity file;
 

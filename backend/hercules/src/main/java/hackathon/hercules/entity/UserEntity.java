@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class UserEntity {
+public class UserEntity extends ObjectEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

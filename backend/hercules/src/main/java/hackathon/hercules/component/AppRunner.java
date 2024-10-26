@@ -18,13 +18,13 @@ public class AppRunner implements CommandLineRunner {
     public void run(String... args) {
 
         UserEntity user = new UserEntity();
-        user.setFirstName("John");
-        user.setLastName("Doe");
+        user.setUserName("Jane Doe");
 
         userService.createUser(user);
 
         List<UserEntity> users = userService.getAllUsers();
-        users.forEach((u) -> System.out.println(u.getFirstName()+ " " + u.getLastName()));
+        users.forEach((u) -> System.out.println(u.getUserName()));
+
 
     }
 

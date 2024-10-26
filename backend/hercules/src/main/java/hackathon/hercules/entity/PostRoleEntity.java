@@ -4,7 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-public class PostRoleEntity {
+public class PostRoleEntity extends ObjectEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long post_id;
