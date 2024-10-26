@@ -26,6 +26,7 @@
                 </div>
             </div>
             <div class="actions">
+                <v-btn to="/home" class="back-button">back</v-btn>
                 <button type="submit" class="send-button" :disabled="message.content.length > 1500">Senden</button>
                 <div class="icons">
                     <i class="icon" @click="toggleFileUpload">📎</i>
@@ -160,11 +161,21 @@ textarea:focus,
 .actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .send-button {
     background-color: #1a73e8;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+
+}
+.back-button{
+    background-color: red;
     color: #fff;
     padding: 10px 20px;
     border: none;
