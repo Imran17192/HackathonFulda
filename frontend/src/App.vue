@@ -1,85 +1,45 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+    import { RouterView } from 'vue-router'
+    import TheFooter from '@/components/layout/TheFooter.vue';
+    import { useAuthStore } from '@/stores/auth.js';
+    import { storeToRefs } from 'pinia';
+
+    const { isAuthenticated } = storeToRefs(useAuthStore());
+    const { logout } = useAuthStore();
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <v-app>
+        <v-app-bar class="text-white" :color="`var(--color-primary)`">
+            <v-app-bar-title>
+                <v-btn to="/" >Home</v-btn>
+            </v-app-bar-title>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+            <template v-if="isAuthenticated">
+                <v-btn icon="mdi-account" to="/profile-view"></v-btn>
+                <v-btn to="/login" @click="logout">
+                    Logout
+                </v-btn>
+            </template>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+            <template v-else>
+                <v-btn to="/login">
+                    Login
+                </v-btn>
+                <v-btn to="/signup">
+                    Signup
+                </v-btn>
+            </template>
+        </v-app-bar>
 
-  <RouterView />
+        <v-main>
+            <v-container>
+                <RouterView/>
+            </v-container>
+        </v-main>
+
+        <v-footer class="d-flex flex-column pa-0">
+            <TheFooter />
+        </v-footer>
+    </v-app>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
