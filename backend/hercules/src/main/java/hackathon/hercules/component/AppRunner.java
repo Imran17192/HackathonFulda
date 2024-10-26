@@ -2,7 +2,7 @@ package hackathon.hercules.component;
 
 import java.util.List;
 
-import hackathon.hercules.entity.User;
+import hackathon.hercules.entity.UserEntity;
 import hackathon.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,13 +17,13 @@ public class AppRunner implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        User user = new User();
+        UserEntity user = new UserEntity();
         user.setFirstName("John");
         user.setLastName("Doe");
 
         userService.createUser(user);
 
-        List<User> users = userService.getAllUsers();
+        List<UserEntity> users = userService.getAllUsers();
         users.forEach((u) -> System.out.println(u.getFirstName()+ " " + u.getLastName()));
 
     }
