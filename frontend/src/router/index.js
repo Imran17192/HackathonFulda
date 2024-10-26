@@ -23,11 +23,11 @@ const router = createRouter({
             component: SignupView
         },
         {
-          path: '/home',
-          name: 'home',
-          component: HomeView
+            path: '/home',
+            name: 'home',
+            component: HomeView
         },
-      {
+        {
             path: '/new-post',
             name: 'new-post',
             component: PostView
