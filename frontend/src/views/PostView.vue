@@ -7,6 +7,10 @@
                 <input type="text" id="subject" v-model="message.subject" required />
             </div>
             <div class="input-group">
+                <label for="tags">Tags:</label>
+                <vue3-tags-input v-model:tags="tags" placeholder="input tags" />
+            </div>
+            <div class="input-group">
                 <label for="content">Nachricht:</label>
                 <textarea id="content" v-model="message.content" rows="10" maxlength="1500" required></textarea>
                 <p class="char-count">{{ 1500 - message.content.length }} Zeichen verbleiben</p>
@@ -29,24 +33,33 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+import Vue3TagsInput from 'vue3-tags-input';
+
+export default defineComponent({
+    components: {
+        Vue3TagsInput
+    },
     data() {
         return {
             message: {
                 subject: '',
                 content: '',
             },
-        };
+            tags: ['VUE', 'HTML', 'CSS']
+        }
     },
     methods: {
         sendMessage() {
             console.log("Nachricht gesendet:", this.message);
-            // Hier könnte eine API-Anfrage oder weitere Logik hinzugefügt werden
+            console.log("Tags:", this.tags);
+            // Reset the form fields
             this.message.subject = '';
             this.message.content = '';
-        },
-    },
-};
+            this.tags = [];
+        }
+    }
+});
 </script>
 
 <style scoped>
