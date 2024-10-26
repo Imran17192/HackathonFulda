@@ -42,9 +42,9 @@ export const useAuthStore = defineStore('auth', () => {
             const response = await axios.post(url, formData)
             console.log('Login response:', response)
             if (response?.status === 200) {
-                isAuthenticated.value = false
+                isAuthenticated.value = true
                 showSnackbar('Signup successful ! You can now login', 'success')
-                router.replace('/login').then(r => r)
+                router.replace('/home').then(r => r)
             }
         } catch (error) {
             showSnackbar(error?.response?.data?.error?.message || 'An error occurred during login.', 'error')
