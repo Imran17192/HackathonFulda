@@ -44,6 +44,7 @@
 <script>
 import { defineComponent } from 'vue';
 import Vue3TagsInput from 'vue3-tags-input';
+import axios from 'axios';
 
 export default defineComponent({
     components: {
@@ -61,10 +62,24 @@ export default defineComponent({
         }
     },
     methods: {
-        sendMessage() {
+        async sendMessage() {
             console.log("Nachricht gesendet:", this.message);
             console.log("Tags:", this.tags);
             console.log("Dateien:", this.files);
+
+            try {
+                const response = await axios.post('http://localhost:3000/api/messages', {
+                    subject: this.message.subject,
+                    content: this.message.content,
+                    tags: this.tags,
+                    files: this.files
+                });
+                if (response?.status === 200) {
+                    console.log("Nachricht erfolgreich gesendet:", response.data);
+                }
+            } catch (error) {
+                console.error("Fehler beim Senden der Nachricht:", error);
+            }
 
             // Reset the form fields
             this.message.subject = '';
