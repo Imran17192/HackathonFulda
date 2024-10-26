@@ -1,8 +1,10 @@
-package com.example.uploadingfiles;
+package hackathon.hercules.controller;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import hackathon.hercules.errorhandling.StorageFileNotFoundException;
+import hackathon.hercules.repository.StorageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -19,23 +21,22 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import services.StorageFileNotFoundException;
-import services.storage.StorageService;
+//import .StorageFileNotFoundException;
 
 @Controller
 public class FileUploadController {
 
-    private final StorageService storageService;
+    private final StorageRepository storage;
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
-        this.storageService = storageService;
+    public FileUploadController(StorageRepository storage) {
+        this.storage = storage;
     }
 
-    @GetMapping("/")
+    @GetMapping("/files")
     public String listUploadedFiles(Model model) throws IOException {
 
-        model.addAttribute("files", storageService.loadAll().map(
+        model.addAttribute("files", storage.loadAll().map(
                         path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                                 "serveFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
@@ -47,7 +48,7 @@ public class FileUploadController {
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
-        Resource file = storageService.loadAsResource(filename);
+        Resource file = storage.loadAsResource(filename);
 
         if (file == null)
             return ResponseEntity.notFound().build();
@@ -60,7 +61,7 @@ public class FileUploadController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
 
-        storageService.store(file);
+        storage.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
