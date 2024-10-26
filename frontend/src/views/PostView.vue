@@ -8,7 +8,7 @@
             </div>
             <div class="input-group">
                 <label for="tags">Tags:</label>
-                <vue3-tags-input v-model:tags="tags" placeholder="input tags" />
+                <vue3-tags-input v-model:tags="tags" placeholder="input tags" class="tags-input" />
             </div>
             <div class="input-group">
                 <label for="content">Nachricht:</label>
@@ -82,12 +82,14 @@ h2 {
 }
 
 input[type="text"],
-textarea {
+textarea,
+.tags-input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    background-color: #fff;
 }
 
 .char-count {
