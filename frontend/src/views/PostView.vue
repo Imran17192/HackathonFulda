@@ -68,7 +68,7 @@ export default defineComponent({
             console.log("Dateien:", this.files);
 
             try {
-                const response = await axios.post('http://localhost:3000/api/messages', {
+                const response = await axios.post('http://localhost:8080/api/messages', {
                     subject: this.message.subject,
                     content: this.message.content,
                     tags: this.tags,
