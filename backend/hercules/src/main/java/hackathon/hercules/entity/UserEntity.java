@@ -9,9 +9,6 @@ import java.io.Serializable;
 
 @Entity
 public class UserEntity extends ObjectEntity implements Serializable {
-
-
-
     private Long id;
 
     private String userName;

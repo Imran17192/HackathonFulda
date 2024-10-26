@@ -1,4 +1,7 @@
 package hackathon.hercules.repository;
 
-public interface ObjectRepository {
+import hackathon.hercules.entity.ObjectEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ObjectRepository extends JpaRepository<ObjectEntity, Long> {
 }

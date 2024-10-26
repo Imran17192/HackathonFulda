@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 @Entity
 public class ConnectionEntity extends ObjectEntity {
 
-
     private Long connection_id;
 
     private ObjectEntity leftObject;

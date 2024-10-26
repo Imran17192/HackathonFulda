@@ -2,7 +2,7 @@ package hackathon.hercules.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 
 @Entity

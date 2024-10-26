@@ -3,7 +3,6 @@ package hackathon.hercules.entity;
 import jakarta.persistence.*;
 
 @Entity
-
 public class PostRoleEntity extends ObjectEntity{
 
 

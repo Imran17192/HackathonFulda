@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class AppRunner implements CommandLineRunner {
 
     @Autowired
+    ObjectService objectService;
     UserService userService;
     FileService fileService;
     RoleService roleService;
