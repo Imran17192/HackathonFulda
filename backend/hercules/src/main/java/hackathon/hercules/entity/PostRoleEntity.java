@@ -3,10 +3,10 @@ package hackathon.hercules.entity;
 import jakarta.persistence.*;
 
 @Entity
-@IdClass(PostRoleId.class)
+
 public class PostRoleEntity extends ObjectEntity{
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long post_id;
 
     RoleEntity role;

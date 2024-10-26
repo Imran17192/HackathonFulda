@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Entity
 public class RoleEntity extends ObjectEntity implements Serializable {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long role_id;
 
     private String role_name;

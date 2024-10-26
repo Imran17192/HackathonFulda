@@ -3,7 +3,7 @@ package hackathon.hercules.entity;
 import jakarta.persistence.*;
 
 @Entity
-@IdClass(UserRoleId.class)
+
 public class UserRoleEntity extends ObjectEntity{
 
     private UserEntity user;

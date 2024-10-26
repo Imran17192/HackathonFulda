@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Entity
 public class ConnectionTypeEntity extends ObjectEntity implements Serializable {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long connectionType_id;
 
     private String name;

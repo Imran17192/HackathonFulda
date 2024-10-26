@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class FileEntity extends ObjectEntity{
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long file_id;
 
     private String path;

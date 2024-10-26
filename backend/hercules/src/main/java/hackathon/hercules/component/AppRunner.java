@@ -22,13 +22,13 @@ public class AppRunner implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        //UserEntity user = new UserEntity();
-        ///user.setUserName("Jane Doe");
+        UserEntity user = new UserEntity();
+        user.setUserName("Jane Doe");
 
-        //userService.createUser(user);
+        userService.createUser(user);
 
-        //List<UserEntity> users = userService.getAllUsers();
-        //users.forEach((u) -> System.out.println(u.getUserName()));
+        List<UserEntity> users = userService.getAllUsers();
+        users.forEach((u) -> System.out.println(u.getUserName()));
 
 
     }

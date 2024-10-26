@@ -6,13 +6,10 @@ import javax.persistence.Entity;
 
 
 @Entity
-@IdClass(MetaDataId.class)
 public class MetaDataEntity extends ObjectEntity {
 
     private ObjectEntity ownerObject;
-
     private String key;
-
     private String value;
 
     public MetaDataEntity() {

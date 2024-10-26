@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class ServerEntity extends ObjectEntity{
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long server_id;
 
     private String link;
