@@ -36,7 +36,7 @@
             </v-container>
         </v-main>
 
-        <v-footer class="d-flex flex-column pa-0">
+        <v-footer class="d-flex flex-column-reverse pa-0">
             <TheFooter />
         </v-footer>
     </v-app>
