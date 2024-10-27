@@ -1,7 +1,11 @@
 <template>
     <div class="profile-view">
         <div class="profile-header">
-            <img src="@/assets/profile-photo.png" alt="Profile Photo" class="profile-photo" />
+            <img src="@/assets/default.png" alt="Profile Photo" class="profile-photo" />
+            <div class="tree-counter">
+                <p class="counter">11</p>
+                <img src="@/assets/tree.png" alt="Tree Photo" class="tree-photo" />
+            </div>
             <h1>{{ name }}</h1>
             <p class="location">{{ location }}</p>
         </div>
@@ -10,8 +14,6 @@
             <p class="bio">{{ bio }}</p>
         </div>
         <div class="profile-actions">
-            <button @click="sendMessage" class="action-button">Send Message</button>
-            <button @click="followUser" class="action-button">Follow</button>
         </div>
     </div>
 </template>
@@ -69,8 +71,27 @@ export default {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    border-width: 100px;
+    border-color: black;
     object-fit: cover;
     margin-bottom: 10px;
+}
+.counter {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 2px;
+    padding: -20px;
+}
+.tree-counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.tree-photo{
+    width: 15%;
+    height: 15%;
+    border-radius: 1px;
 }
 
 .location {
