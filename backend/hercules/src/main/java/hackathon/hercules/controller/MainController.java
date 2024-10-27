@@ -74,10 +74,18 @@ public class MainController {
                                   @RequestParam List<String> tags, @RequestParam String username,
                                   @RequestParam(required = false) List<MultipartFile> files) {
         try {
+
+            User user = userService.getUserByEmail(username);
+
             Post post = new Post();
             post.setTitle(subject);
             post.setContent(content);
-            post.setAuthor(username);
+            if(user != null) {
+                post.setAuthor(user.getFirstName() + " " + user.getLastName());
+            }
+            else {
+                post.setAuthor("anonymous user");
+            }
             postService.savePost(post);
             for (String tag : tags) {
                 Tag tagEntity = new Tag();

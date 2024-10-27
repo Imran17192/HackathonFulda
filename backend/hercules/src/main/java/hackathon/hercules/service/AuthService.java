@@ -34,7 +34,7 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public void authenticateUser(String email, String password) {
+    public User authenticateUser(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new RuntimeException("User not found");
@@ -42,5 +42,6 @@ public class AuthService {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
+        return user;
     }
 }
