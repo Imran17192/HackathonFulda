@@ -1,6 +1,9 @@
 <script setup>
     import SearchBarComponent from "@/components/SearchBarComponent.vue";
     import PostComponent from "@/components/PostComponant.vue";
+    import { usePostStore } from '@/stores/post.js';
+
+    const { posts } = usePostStore();
 </script>
 
 <template>
@@ -8,7 +11,10 @@
         <SearchBarComponent/>
         <v-btn to="/new-post" class="send-post-button">+</v-btn>
     </div>
-    <PostComponent/>
+
+    <template v-for="post in posts" :key="post.id">
+        <PostComponent :post="post"/>
+    </template>
 </template>
 
 <style scoped>

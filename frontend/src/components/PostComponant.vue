@@ -1,41 +1,32 @@
 <template>
-    <div class="social-post">
-        <div class="post-header">
-            <div class="profile-info">
-                <img src="@/assets/profile-photo.png" alt="Profile" class="profile-photo">
-                <p><strong> &nbsp;Alexander Geißenbergger</strong> | 25. Juli um 15:15</p>
-        </div>
-            <div class="header-text">
-                <p>Herzlich willkommen! Unser charmantes PPC Team sucht Verstärkung und freut sich auf DICH! <a href="https://karriere.xpose360.de/job/sea-ppc-senior-manager/">karriere.xpose360.de/job/sea-ppc-senior-manager/</a></p>
+    <v-card v-if="post" class="mx-auto ma-4" max-width="500" variant="outlined" @click="showPost">
+        <v-card-text>
+            <div>Author: {{ post.author }}</div>
+
+            <p class="text-h4 font-weight-black">{{ post.title }}</p>
+
+            <div class="text-medium-emphasis">
+                {{ post.content }}
             </div>
-        </div>
-        <div class="post-body">
-            <img src="@/assets/team-photo.png" alt="Team" class="team-photo">
-        </div>
-        <div class="post-footer">
-            <div class="interaction-stats">
-            </div>
-            <div class="actions">
-                <button class="thumb-button" @click="incrementLike">
-                    👍
-                </button>
-            </div>
-        </div>
-    </div>
+        </v-card-text>
+    </v-card>
 </template>
 
-<script>
-export default {
-    name: 'SocialPost',
-    data() {
-        return {
-            // data properties here if needed
-        };
-    },
-    methods: {
-        // event handling methods here
+<script setup>
+    import router from '@/router/index.js';
+
+    const props = defineProps({
+        post: {
+            type: Object,
+            default: null,
+        }
+    });
+
+    function showPost() {
+        if (props.post?.id) {
+            router.push(`/posts/${props.post.id}`);
+        }
     }
-}
 </script>
 
 <style scoped>
@@ -48,6 +39,7 @@ export default {
     margin: 20px auto;
     font-family: Arial, sans-serif;
 }
+
 .profile-info {
     display: flex;
     align-items: center;
@@ -63,6 +55,7 @@ export default {
     height: 10%;
     border-radius: 60px;
 }
+
 .team-photo {
     width: 100%;
     height: auto;
