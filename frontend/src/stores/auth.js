@@ -24,6 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
             if (200 === response?.status) {
                 isAuthenticated.value = true
                 localStorage.setItem('isAuthenticated', isAuthenticated.value)
+                useStore().mutations.setUserName(email) 
                 showSnackbar('Login successful !', 'success')
                 router.replace('/home').then(r => r)
             }
