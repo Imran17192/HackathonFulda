@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
                 isAuthenticated.value = true
                 localStorage.setItem('isAuthenticated', isAuthenticated.value)
                 showSnackbar('Login successful !', 'success')
-                router.replace('/home').then(r => r)
+                router.replace('/profile-view').then(r => r)
             }
         } catch (error) {
             console.error('Login error:', error);

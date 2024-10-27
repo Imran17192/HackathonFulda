@@ -7,11 +7,9 @@ import { errorMessages } from '@/config/errorMessages.js';
 import { useSnackbarStore } from '@/stores/snackbar.js';
 import BaseCardComponent from '@/components/ui/BaseCardComponent.vue';
 import BaseButtonComponent from '@/components/ui/BaseButtonComponent.vue';
-import axios from 'axios';
 import { useAuthStore } from '@/stores/auth.js';
 
 const snackbarStore = useSnackbarStore();
-const { showSnackbar } = snackbarStore;
 const { snackbar } = storeToRefs(snackbarStore);
 
 const schema = yup.object({
@@ -27,8 +25,12 @@ const schema = yup.object({
 });
 const { fields, errors, submitForm } = useFormHandler(schema, onSuccess, onInvalidSubmit);
 
+const authStore = useAuthStore();
+const { isSigningUp } = storeToRefs(authStore);
+const { signup } = authStore;
+
 async function onSuccess(values) {
-    await useAuthStore().signup(values);
+    await signup(values);
 }
 
 function onInvalidSubmit({ values, errors, results }) {
@@ -114,7 +116,7 @@ function onInvalidSubmit({ values, errors, results }) {
                 <base-button-component
                     type="submit"
                     text="Signup"
-                    :loading="false"
+                    :loading="isSigningUp"
                 ></base-button-component>
             </div>
         </v-form>

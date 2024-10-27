@@ -17,6 +17,7 @@ const fetchPosts = async () => {
     try {
         const response = await axios.get('http://localhost:8080/api/auth/posts');
         posts.value = response.data; // Store the fetched posts
+        console.log(response.data);
     } catch (error) {
         console.error("Error fetching posts:", error);
     }

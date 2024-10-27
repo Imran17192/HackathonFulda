@@ -1,12 +1,11 @@
 <script setup>
-import { useFormHandler } from '@/composables/formHandler.js'; // Import your form handler
-import { errorMessages } from '@/config/errorMessages.js'; // Import error messages
-import BaseButtonComponent from '@/components/ui/BaseButtonComponent.vue';
-import BaseCardComponent from '@/components/ui/BaseCardComponent.vue';
+import { useFormHandler } from '@/composables/formHandler.js';
+import { errorMessages } from '@/config/errorMessages.js';
 import * as yup from "yup";
 import { useAuthStore } from "@/stores/auth.js";
 import ErrorMessage from "@/components/ErrorMessage.vue";
 import { useSnackbarStore } from '@/stores/snackbar.js';
+import { storeToRefs } from 'pinia';
 
 const schema = yup.object({
     email: yup.string().required(errorMessages.required('Email')).email(errorMessages.type.email),
@@ -17,7 +16,9 @@ const { snackbar } = useSnackbarStore();
 
 const { fields, errors, submitForm } = useFormHandler(schema, onSuccess, onInvalidSubmit);
 
-const { login } = useAuthStore();
+const authStore = useAuthStore();
+const { isLoggingIn } = storeToRefs(authStore);
+const { login } = authStore;
 
 function onSuccess(values) {
     login(values.email, values.password);
@@ -65,7 +66,7 @@ function onInvalidSubmit({ values, errors }) {
             <base-button-component
                 type="submit"
                 text="Login"
-                :loading="false"
+                :loading="isLoggingIn"
             ></base-button-component>
         </div>
     </v-form>
