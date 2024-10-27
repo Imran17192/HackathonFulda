@@ -1,6 +1,6 @@
 package hackathon.hercules.service;
 
-import hackathon.hercules.entity.Post;
+import hackathon.hercules.entity.PostEntity;
 import hackathon.hercules.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,26 +11,26 @@ import java.util.List;
 public class PostService {
 
     @Autowired
-    PostRepository postRepository;
+    private PostRepository repository;
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public PostEntity createPost(PostEntity post) {
+        return repository.save(post);
     }
 
-    public Post getPostById(Long id) {
-        return postRepository.findById(id).orElse(null);
+    public List<PostEntity> getAllPosts() {
+        return repository.findAll();
     }
 
-    public Post savePost(Post post) {
-        return postRepository.save(post);
+    public PostEntity getPostById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public PostEntity updatePost(PostEntity post) {
+        return repository.save(post);
     }
 
     public void deletePost(Long id) {
-        postRepository.deleteById(id);
-    }
-
-    public Post updatePost(Post post) {
-        return postRepository.save(post);
+        repository.deleteById(id);
     }
 
     public boolean isPostExists(Long id) {

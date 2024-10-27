@@ -1,0 +1,20 @@
+object(#object_id, server.server_id)
+
+object -> user(#user_id, username)
+
+object -> role(#role_id, role_name, role.role_id)
+object -> user_role(#user.user_id, #role.role_id)
+
+object -> file(#file_id, path, version)
+object -> file_role(#file.file_id, #role.role_id, read, write, delete)
+
+object -> post(#post_id, text)
+object -> post_role(#post.post_id, #role.role_id, read, write, delete)
+
+object -> connection(#connection_id, object.objectid, object.object_id, type.connectionType_id)
+
+object -> connection_type(#connectionType_id, name)
+
+object -> metadata(#object_id, #key, value)
+
+object -> server(#server_id, link)
