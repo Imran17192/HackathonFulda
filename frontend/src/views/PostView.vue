@@ -1,189 +1,214 @@
+<!-- Add Post form with title, tags and content and possibility to add a file -->
 <template>
-    <div class="message-form">
-        <h2>Neue Nachricht</h2>
-        <form @submit.prevent="sendMessage">
-            <div class="input-group">
-                <label for="subject">Betreff:</label>
-                <input type="text" id="subject" v-model="subject" required/>
-            </div>
-            <div class="input-group">
-                <label for="tags">Tags:</label>
-                <vue3-tags-input :tags="tags" placeholder="input tags" class="tags-input" @on-tags-changed="handleChangeTag" />
-            </div>
-            <div class="input-group">
-                <label for="content">Nachricht:</label>
-                <textarea id="content" v-model="content" rows="10" maxlength="1500" required></textarea>
-                <p class="char-count">{{ 1500 - content.length }} Zeichen verbleiben</p>
-            </div>
-            <div v-if="showFileUpload" class="input-group">
-                <label for="file-upload">Dateien hochladen:</label>
-                <input type="file" id="file-upload" @change="handleFileUpload" multiple/>
-                <div v-if="files.length" class="file-preview">
-                    <div v-for="(file, index) in files" :key="index" class="file-item">
-                        <span>{{ file.name }}</span>
-                        <button type="button" @click="removeFile(index)">Entfernen</button>
-                    </div>
-                </div>
-            </div>
-            <div class="actions">
-                <v-btn to="/home" class="back-button">back</v-btn>
-                <button type="submit" class="send-button" :disabled="content.length > 1500">Senden</button>
-                <div class="icons">
-                    <i class="icon" @click="toggleFileUpload">📎</i>
-                    <i class="icon">🔗</i>
-                    <i class="icon">😊</i>
-                    <i class="icon">🖼️</i>
-                    <i class="icon">🔒</i>
-                    <i class="icon">✏️</i>
-                    <i class="icon">⋮</i>
-                </div>
-            </div>
-        </form>
+  <div class="message-form">
+    <h2>Send a message</h2>
+    <div class="input-group">
+      <input type="text" placeholder="Subject" v-model="subject"/>
     </div>
+    <div class="input-group">
+      <label for="tags">Tags:</label>
+      <vue3-tags-input :tags="tags" placeholder="input tags" class="tags-input" @on-tags-changed="handleChangeTag"/>
+    </div>
+    <div class="input-group">
+            <textarea
+                rows="5"
+                placeholder="Content"
+                v-model="content"
+            ></textarea>
+    </div>
+    <div class="input-group">
+      <button @click="toggleFileUpload" class="send-button">Add file</button>
+    </div>
+    <div v-if="showFileUpload" class="input-group">
+      <input type="file" @change="handleFileUpload" multiple/>
+    </div>
+    <div v-if="files.length > 0" class="file-preview">
+      <div v-for="(file, index) in files" :key="index" class="file-item">
+        <span>{{ file.name }}</span>
+        <div class="actions">
+          <span @click="removeFile(index)" class="icon">❌</span>
+        </div>
+      </div>
+    </div>
+    <div class="input-group">
+      <button @click="sendMessage" class="send-button">Send</button>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <button @click="back" class="back-button">Back</button>
+  </div>
 </template>
 
-<script setup>
-    import { ref } from 'vue';
-    import Vue3TagsInput from 'vue3-tags-input';
-    import axios from 'axios';
+<script>
+import {ref} from 'vue';
+import Vue3TagsInput from 'vue3-tags-input';
+import axios from "axios";
 
+export default {
+  components: {
+    Vue3TagsInput,
+  },
+  setup() {
     const subject = ref('');
-    const content = ref('');
     const tags = ref([]);
-    const files = ref([]);
+    const content = ref('');
     const showFileUpload = ref(false);
+    const files = ref([]);
 
-    async function sendMessage() {
-        try {
-            console.log("files...", files.value);
-            const response = await axios.post('http://localhost:8080/api/auth/messages', {
-                subject: subject.value,
-                content: content.value,
-                tags: tags.value,
-                files: files.value,
-            });
-            if (response?.status === 200) {
-                console.log("Nachricht erfolgreich gesendet:", response.data);
-            }
-        } catch (error) {
-            console.error("Fehler beim Senden der Nachricht:", error);
-        }
+    const toggleFileUpload = () => {
+      showFileUpload.value = !showFileUpload.value;
+    };
 
-        // Reset the form fields
-        subject.value = '';
-        content.value = '';
-        tags.value = [];
-        files.value = [];
-        showFileUpload.value = false;
-    }
+    const handleFileUpload = (event) => {
+      files.value = Array.from(event.target.files);
+    };
 
-    function toggleFileUpload() {
-        showFileUpload.value = !showFileUpload.value;
-    }
-
-    function handleFileUpload(event) {
-        const uploadedFiles = Array.from(event.target.files);
-        files.value.push(...uploadedFiles);
-    }
-
-    function removeFile(index) {
-        files.value.splice(index, 1);
-    }
+    const removeFile = (index) => {
+      files.value.splice(index, 1);
+    };
 
     function handleChangeTag(tag) {
-        tags.value = tag;
+      tags.value = tag;
     }
+
+    const sendMessage = () => {
+      console.log({
+        subject: subject.value,
+        tags: tags.value,
+        content: content.value,
+        files: files.value,
+      });
+
+      const formData = new FormData();
+      formData.append('subject', subject.value);
+      formData.append('tags', tags.value.join(','));
+      formData.append('content', content.value);
+      files.value.forEach((file) => {
+        formData.append('files', file);
+      });
+
+      axios.post('http://localhost:8080/api/auth/messages', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then((response) => {
+        console.log(response);
+      }).catch((error) => {
+        console.error(error);
+      });
+    };
+
+    const back = () => {
+      window.history.back();
+    };
+
+    return {
+      subject,
+      tags,
+      content,
+      showFileUpload,
+      files,
+      toggleFileUpload,
+      handleFileUpload,
+      removeFile,
+      handleChangeTag,
+      sendMessage,
+      back,
+    };
+  },
+};
 </script>
 
 <style scoped>
-    .message-form {
-        max-width: 600px;
-        margin: auto;
-        background-color: #f7f9fc;
-        padding: 20px;
-        border-radius: 8px;
-    }
+.message-form {
+  max-width: 600px;
+  margin: auto;
+  background-color: #f7f9fc;
+  padding: 20px;
+  border-radius: 8px;
+}
 
-    h2 {
-        margin-bottom: 15px;
-        color: #333;
-        font-weight: normal;
-    }
+h2 {
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: normal;
+}
 
-    .input-group {
-        margin-bottom: 10px;
-    }
+.input-group {
+  margin-bottom: 10px;
+}
 
-    input[type="text"],
-    textarea,
-    .tags-input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-        background-color: #fff;
-    }
+input[type="text"],
+textarea,
+.tags-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+}
 
-    input[type="text"]:focus,
-    textarea:focus,
-    .tags-input:focus-within {
-        border: 1px solid #1a73e8;
-    }
+input[type="text"]:focus,
+textarea:focus,
+.tags-input:focus-within {
+  border: 1px solid #1a73e8;
+}
 
-    .char-count {
-        font-size: 12px;
-        color: #666;
-        text-align: right;
-    }
+.char-count {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+}
 
-    .file-preview {
-        margin-top: 10px;
-    }
+.file-preview {
+  margin-top: 10px;
+}
 
-    .file-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 5px;
-        background-color: #e9f5ff;
-        border-radius: 4px;
-        margin-bottom: 5px;
-    }
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  background-color: #e9f5ff;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
 
-    .actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-    }
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
 
-    .send-button {
-        background-color: #1a73e8;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        font-size: 14px;
-        cursor: pointer;
+.send-button {
+  background-color: #1a73e8;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
 
-    }
+}
 
-    .back-button {
-        background-color: red;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        font-size: 14px;
-        cursor: pointer;
-    }
+.back-button {
+  background-color: red;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
 
-    .icons {
-        display: flex;
-        gap: 10px;
-    }
+.icons {
+  display: flex;
+  gap: 10px;
+}
 
-    .icon {
-        font-size: 18px;
-        cursor: pointer;
-    }
+.icon {
+  font-size: 18px;
+  cursor: pointer;
+}
 </style>

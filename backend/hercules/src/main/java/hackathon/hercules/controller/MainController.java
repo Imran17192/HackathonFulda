@@ -8,8 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.filter.RequestContextFilter;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -17,11 +24,13 @@ import java.util.Map;
 public class MainController {
     private final AuthService authService;
     private final PostService postService;
+    private final RequestContextFilter requestContextFilter;
 
     @Autowired
-    public MainController(AuthService authService, PostService postService) {
+    public MainController(AuthService authService, PostService postService, RequestContextFilter requestContextFilter) {
         this.authService = authService;
         this.postService = postService;
+        this.requestContextFilter = requestContextFilter;
     }
 
     @PostMapping("/signup")
@@ -54,9 +63,27 @@ public class MainController {
     }
 
     @PostMapping("/messages")
-    public ResponseEntity<?> post(@RequestBody Map<Object, Object> payload) {
+    public ResponseEntity<?> post(@RequestParam String subject, @RequestParam String content, @RequestParam List<String> tags,
+                                  @RequestParam(required = false) List<MultipartFile> files) {
         try {
-            System.out.println(payload);
+            List<String> fileNames = new ArrayList<>();
+            System.out.println("here");
+            if (files != null) {
+                for (MultipartFile file : files) {
+                    fileNames.add(file.getOriginalFilename());
+                    Path path = Paths.get("src/main/resources/uploads/" + file.getOriginalFilename());
+                    try (OutputStream os = java.nio.file.Files.newOutputStream(path)) {
+                        os.write(file.getBytes());
+                    }
+                }
+            }
+            System.out.println("here");
+            Post post = new Post();
+            post.setTitle(subject);
+            post.setContent(content);
+            post.setTags(tags);
+            post.setFiles(fileNames);
+            postService.savePost(post);
             return ResponseEntity.ok(new AuthResponse("Post created successfully", true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AuthResponse("Post creation failed", false));
