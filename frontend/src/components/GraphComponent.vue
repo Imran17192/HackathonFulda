@@ -14,24 +14,24 @@ export default {
         renderGraph() {
             const data = {
                 "nodes": [
-                    { "id": "customer", "group": 3 },
-                    { "id": "customer support chatbot", "group": 2 },
-                    { "id": "chatbot", "group": 3 },
-                    { "id": "engine analyzes user", "group": 2 },
-                    { "id": "engine", "group": 3 },
-                    { "id": "business improve customer", "group": 2 },
-                    { "id": "system", "group": 3 }
+                    { "id": "machine learning", "group": 3 },
+                    { "id": "classification", "group": 2 },
+                    { "id": "image", "group": 3 },
+                    { "id": "clustering", "group": 2 },
+                    { "id": "kmeans", "group": 3 },
+                    { "id": "segmentation", "group": 2 },
+                    { "id": "text", "group": 3 }
                 ],
                 "links": [
-                    { "source": "customer", "target": "customer support chatbot", "value": 1 },
-                    { "source": "customer support chatbot", "target": "chatbot", "value": 1 },
-                    { "source": "customer support chatbot", "target": "customer", "value": 1 },
-                    { "source": "customer", "target": "engine analyzes user", "value": 1 },
-                    { "source": "engine analyzes user", "target": "engine", "value": 1 },
-                    { "source": "engine analyzes user", "target": "customer", "value": 1 },
-                    { "source": "customer", "target": "business improve customer", "value": 1 },
-                    { "source": "business improve customer", "target": "system", "value": 1 },
-                    { "source": "business improve customer", "target": "customer", "value": 1 }
+                    { "source": "machine learning", "target": "classification", "value": 1 },
+                    { "source": "classification", "target": "image", "value": 1 },
+                    { "source": "classification", "target": "machine learning", "value": 1 },
+                    { "source": "machine learning", "target": "clustering", "value": 1 },
+                    { "source": "clustering", "target": "kmeans", "value": 1 },
+                    { "source": "clustering", "target": "machine learning", "value": 1 },
+                    { "source": "machine learning", "target": "segmentation", "value": 1 },
+                    { "source": "segmentation", "target": "text", "value": 1 },
+                    { "source": "segmentation", "target": "machine learning", "value": 1 }
                 ]
             };
 
@@ -45,15 +45,6 @@ export default {
             const nodeSizeScale = d3.scaleLinear()
                 .domain([0, d3.max(nodes, node => links.filter(link => link.source === node.id || link.target === node.id).length)])
                 .range([5, 15]);
-
-            const tooltip = d3.select("body").append("div")
-                .attr("class", "tooltip")
-                .style("position", "absolute")
-                .style("background", "#f9f9f9")
-                .style("padding", "5px")
-                .style("border", "1px solid #ccc")
-                .style("border-radius", "5px")
-                .style("display", "none");
 
             const svg = d3.select(this.$refs.graphContainer).append("svg")
                 .attr("width", width)
@@ -101,7 +92,7 @@ export default {
                 .join("text")
                 .attr("dy", -10)
                 .attr("text-anchor", "middle")
-                .attr("font-size", 10)
+                .attr("font-size", 8)
                 .text(d => d.id);
 
             node.call(d3.drag()
