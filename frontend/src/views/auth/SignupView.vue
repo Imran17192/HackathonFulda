@@ -8,6 +8,7 @@ import { useSnackbarStore } from '@/stores/snackbar.js';
 import BaseCardComponent from '@/components/ui/BaseCardComponent.vue';
 import BaseButtonComponent from '@/components/ui/BaseButtonComponent.vue';
 import axios from 'axios';
+import { useAuthStore } from '@/stores/auth.js';
 
 const snackbarStore = useSnackbarStore();
 const { showSnackbar } = snackbarStore;
@@ -19,7 +20,7 @@ const schema = yup.object({
     lastName: yup.string().required(errorMessages.required('Last name')),
     email: yup.string().required(errorMessages.required).email(errorMessages.type.email),
     phone: yup.string(),
-    password: yup.string().required(errorMessages.required('Password')),
+    password: yup.string().required(errorMessages.required('Password')).min(8),
     confirmPassword: yup.string()
         .oneOf([yup.ref('password')], 'Passwords must match')
         .required(errorMessages.required('Please confirm password', true)),
@@ -27,17 +28,7 @@ const schema = yup.object({
 const { fields, errors, submitForm } = useFormHandler(schema, onSuccess, onInvalidSubmit);
 
 async function onSuccess(values) {
-    console.log('success', values);
-    console.log('submitForm', values);
-    try {
-        const data = await axios.post('http://localhost:8080/api/auth/signup', values);
-        console.log('success', data);
-        showSnackbar('Signup successful. You can now login.', 'success');
-        
-    } catch (error) {
-        showSnackbar(error, 'error');
-    } finally {
-    }
+    await useAuthStore().signup(values);
 }
 
 function onInvalidSubmit({ values, errors, results }) {

@@ -24,7 +24,6 @@ export const useAuthStore = defineStore('auth', () => {
             if (200 === response?.status) {
                 isAuthenticated.value = true
                 localStorage.setItem('isAuthenticated', isAuthenticated.value)
-                useStore().mutations.setUserName(email) 
                 showSnackbar('Login successful !', 'success')
                 router.replace('/home').then(r => r)
             }
@@ -44,9 +43,8 @@ export const useAuthStore = defineStore('auth', () => {
             const response = await axios.post(url, formData)
             console.log('Login response:', response)
             if (response?.status === 200) {
-                isAuthenticated.value = true
-                showSnackbar('Signup successful ! You can now login', 'success')
-                router.replace('/home').then(r => r)
+                await login(formData.email, formData.password)
+                showSnackbar('Signup successful ! You are automatically logged in', 'success')
             }
         } catch (error) {
             showSnackbar(error?.response?.data?.error?.message || 'An error occurred during login.', 'error')
