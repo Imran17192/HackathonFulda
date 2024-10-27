@@ -59,7 +59,7 @@ onMounted(() => {
         <h2>Ranking</h2>
         <ul>
           <!-- sort users by treeCount -->
-          <li v-for="user in sortedUsers" :key="user.id">{{ user.firstName }} {{ user.lastName }} - {{ user.treeCount }} trees</li>
+          <li class="trees" v-for="user in sortedUsers" :key="user.id">{{ user.firstName }} {{ user.lastName }} - {{ user.treeCount }} x <img src="./../assets/tree2.png" height="32px" width="29px"></img></li>
         </ul>
       </div>
     </div>
@@ -73,6 +73,12 @@ onMounted(() => {
   width: 100%;
   margin: auto;
   max-width: 1200px; /* Maximum width for larger screens */
+}
+
+.trees {
+  img {
+    bottom: -2px;
+  }
 }
 
 .send-post-button {
