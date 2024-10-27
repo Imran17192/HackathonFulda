@@ -1,9 +1,6 @@
 package hackathon.hercules.entity;
 
 import jakarta.persistence.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,10 +12,6 @@ public class Post {
     private String title;
     private String content;
     private String author;
-    @ElementCollection
-    private List<String> tags;
-    @ElementCollection
-    private List<String> files;
 
     public Long getId() {
         return id;
@@ -50,22 +43,6 @@ public class Post {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
-    public List<String> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<String> files) {
-        this.files = files;
     }
 
     @Override
