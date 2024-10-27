@@ -1,9 +1,7 @@
 package hackathon.hercules.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Post {
@@ -42,8 +40,6 @@ public class Post {
     public String getAuthor() {
         return author;
     }
-
-
 
     public void setAuthor(String author) {
         this.author = author;
