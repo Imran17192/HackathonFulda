@@ -2,20 +2,27 @@
     import { RouterView } from 'vue-router'
     import TheFooter from '@/components/layout/TheFooter.vue';
     import { useAuthStore } from '@/stores/auth.js';
+    import { storeToRefs } from 'pinia';
+    import { onBeforeMount } from 'vue';
 
-    const { isAuthenticated } = useAuthStore();
+    const authStore = useAuthStore();
+    const { isAuthenticated } = storeToRefs(authStore);
+    const { logout, autoLogin } = authStore;
+
+    onBeforeMount(() => {
+        autoLogin();
+    })
 </script>
 
 <template>
     <v-app>
         <v-app-bar class="text-white" :color="`var(--color-primary)`">
             <v-app-bar-title>
-                <v-btn to="/" >Home</v-btn>
+                <v-btn :to="isAuthenticated ? '/' : '/login'">Hercules Home</v-btn>
             </v-app-bar-title>
-
             <template v-if="isAuthenticated">
-                <v-btn icon="mdi-account"></v-btn>
-                <v-btn to="/login">
+                <v-btn icon="mdi-account" to="/profile-view"></v-btn>
+                <v-btn to="/login" @click="logout">
                     Logout
                 </v-btn>
             </template>
@@ -41,13 +48,3 @@
         </v-footer>
     </v-app>
 </template>
-
-<script>
-import PostForm from './views/PostView.vue';
-
-export default {
-    components: {
-        PostForm,
-    },
-};
-</script>

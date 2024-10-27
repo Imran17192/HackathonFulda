@@ -19,10 +19,11 @@ export const useAuthStore = defineStore('auth', () => {
                 email,
                 password,
             })
+            console.log('Login response:', response)
 
             if (200 === response?.status) {
                 isAuthenticated.value = true
-                console.log('Login response:', isAuthenticated.value)
+                localStorage.setItem('isAuthenticated', isAuthenticated.value)
                 showSnackbar('Login successful !', 'success')
                 router.replace('/home').then(r => r)
             }
@@ -42,9 +43,9 @@ export const useAuthStore = defineStore('auth', () => {
             const response = await axios.post(url, formData)
             console.log('Login response:', response)
             if (response?.status === 200) {
-                isAuthenticated.value = false
+                isAuthenticated.value = true
                 showSnackbar('Signup successful ! You can now login', 'success')
-                router.replace('/login').then(r => r)
+                router.replace('/home').then(r => r)
             }
         } catch (error) {
             showSnackbar(error?.response?.data?.error?.message || 'An error occurred during login.', 'error')
@@ -54,8 +55,15 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    function autoLogin() {
+        if (localStorage.getItem('isAuthenticated')) {
+            isAuthenticated.value = true
+        }
+    }
+
     function logout() {
         isAuthenticated.value = false
+        localStorage.removeItem('isAuthenticated')
         router.replace('/login').then(r => r)
         showSnackbar('You have been logged out.', 'success')
     }
@@ -64,6 +72,7 @@ export const useAuthStore = defineStore('auth', () => {
         isAuthenticated,
         login,
         isLoggingIn,
+        autoLogin,
         logout,
         signup,
         isSigningUp,
