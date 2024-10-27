@@ -1,29 +1,31 @@
 <script setup>
-import * as yup from 'yup';
-import ErrorMessage from '@/components/ErrorMessage.vue';
-import { useFormHandler } from '@/composables/formHandler.js';
-import { errorMessages } from '@/config/errorMessages.js';
+import { useStore } from 'vuex';
+import { useFormHandler } from '@/composables/formHandler.js'; // Import your form handler
+import { errorMessages } from '@/config/errorMessages.js'; // Import error messages
 import BaseButtonComponent from '@/components/ui/BaseButtonComponent.vue';
 import BaseCardComponent from '@/components/ui/BaseCardComponent.vue';
-import { useAuthStore } from '@/stores/auth.js';
+import * as yup from "yup";
+import {useAuthStore} from "@/stores/auth.js";
+
+const store = useStore(); // Access Vuex store
 
 const schema = yup.object({
-    email: yup.string().required(errorMessages.required('Email')).email(errorMessages.type.email),
-    password: yup.string().required(errorMessages.required('Password')),
+  email: yup.string().required(errorMessages.required('Email')).email(errorMessages.type.email),
+  password: yup.string().required(errorMessages.required('Password')),
 });
 
 const { fields, errors, submitForm } = useFormHandler(schema, onSuccess, onInvalidSubmit);
 
 const { login } = useAuthStore();
 
-async function onSuccess(values) {
-    await login(values.email, values.password);
+function onSuccess(values) {
+  store.dispatch('saveUserLogged', values.email);
+  login(values.email, values.password);
 }
 
-function onInvalidSubmit({ values, errors, results }) {
-    console.log(values); // current form values
-    console.log(errors); // a map of field names and their first error message
-    console.log(results); // a detailed map of field names and their validation results
+function onInvalidSubmit({ values, errors }) {
+  console.log(values);
+  console.log(errors);
 }
 </script>
 

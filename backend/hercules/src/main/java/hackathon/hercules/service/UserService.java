@@ -44,4 +44,15 @@ public class UserService {
     public boolean isUserExistsByEmail(String email) {
         return userRepository.findByEmail(email) != null;
     }
+
+    public void incrementTreeCount(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        System.out.println("test1");
+        if (user != null) {
+            user.setTreeCount(user.getTreeCount() + 1);
+            System.out.println("test2");
+            userRepository.save(user);
+            System.out.println("test3");
+        }
+    }
 }

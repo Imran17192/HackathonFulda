@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import store from './store'
 
 // Vuetify
 import 'vuetify/styles'
@@ -26,6 +27,7 @@ const vuetify = createVuetify({
 
 
 app.use(createPinia())
+app.use(store)
 app.use(router)
 app.use(vuetify)
 app.component('BaseCardComponent', BaseCardComponent)

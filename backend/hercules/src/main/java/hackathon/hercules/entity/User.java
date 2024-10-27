@@ -17,6 +17,11 @@ public class User {
     private String lastName;
     private String phoneNumber;
     private String password;
+    private Integer treeCount;
+    private String city;
+    private String country;
+    private String bio;
+    private String profilePicture;
 
     public Long getId() {
         return id;
@@ -74,6 +79,46 @@ public class User {
         this.password = password;
     }
 
+    public Integer getTreeCount() {
+        return treeCount;
+    }
+
+    public void setTreeCount(Integer treeCount) {
+        this.treeCount = treeCount;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -84,6 +129,11 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
+                ", treeCount=" + treeCount +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", bio='" + bio + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
                 '}';
     }
 }

@@ -26,6 +26,11 @@ public class AuthService {
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setPassword(passwordEncoder.encode(password));
+        user.setTreeCount(0);
+        user.setBio("Here is my bio. Double click to edit.");
+        user.setCity("");
+        user.setCountry("");
+        user.setProfilePicture("");
         userRepository.save(user);
     }
 

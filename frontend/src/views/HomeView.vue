@@ -1,41 +1,119 @@
 <script setup>
-    import SearchBarComponent from "@/components/SearchBarComponent.vue";
-    import PostComponent from "@/components/PostComponant.vue";
-    import { usePostStore } from '@/stores/post.js';
+import { onMounted, ref, computed  } from 'vue'; // Import necessary functions
+import SearchBarComponent from "@/components/SearchBarComponent.vue";
+import PostComponent from "@/components/PostComponant.vue"; // Corrected spelling
+import axios from "axios";
 
-    const { posts } = usePostStore();
+// Create reactive variables to store posts and users
+const posts = ref([]);
+const users = ref([]);
+
+// Function to fetch posts
+const fetchPosts = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/auth/posts');
+    posts.value = response.data; // Store the fetched posts
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  }
+}
+
+// Function to fetch users
+const fetchUsers = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/auth/users');
+    users.value = response.data; // Store the fetched users
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+  }
+}
+
+const sortedUsers = computed(() => {
+  return [...users.value].sort((a, b) => b.treeCount - a.treeCount); // Sort users by treeCount in descending order
+});
+
+// Fetch posts and users when the component is mounted
+onMounted(() => {
+  fetchPosts();
+  fetchUsers();
+});
 </script>
 
 <template>
-    <div class="home">
-        <SearchBarComponent/>
-        <v-btn to="/new-post" class="send-post-button">+</v-btn>
+  <div class="home">
+    <SearchBarComponent />
+    <v-btn to="/new-post" class="send-post-button">+</v-btn>
+    <div class="container">
+      <div class="users">
+        <h2>Users</h2>
+        <ul>
+          <li v-for="user in users" :key="user.id">{{ user.firstName }} {{ user.lastName }}</li>
+        </ul>
+      </div>
+      <div class="posts">
+        <h2>Posts</h2>
+        <PostComponent v-for="post in posts" :key="post.id" :post="post" />
+      </div>
+      <div class="ranking">
+        <h2>Ranking</h2>
+        <ul>
+          <!-- sort users by treeCount -->
+          <li v-for="user in sortedUsers" :key="user.id">{{ user.firstName }} {{ user.lastName }} - {{ user.treeCount }} trees</li>
+        </ul>
+      </div>
     </div>
-
-    <template v-for="post in posts" :key="post.id">
-        <PostComponent :post="post"/>
-    </template>
+  </div>
 </template>
 
 <style scoped>
-    .home {
-        display: flow;
-        width: 600px;
-        margin: auto;
-    }
+.home {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
+  max-width: 1200px; /* Maximum width for larger screens */
+}
 
-    .send-post-button {
-        display: flex;
-        height: 20%;
-        width: 20%;
-        background: #007BFF;
-        border: none;
-        border-radius: 15px;
-        color: white;
-        padding: 10px 30px;
-        cursor: pointer;
-        font-size: 40px;
-        margin: 20px auto;
+.send-post-button {
+  display: flex;
+  height: 50px;
+  width: 50px;
+  background: #007BFF;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  margin: 20px auto;
+}
 
-    }
+/* Container for users, posts, and ranking */
+.container {
+  display: flex;
+  justify-content: space-between; /* Space between elements */
+}
+
+/* Common styling for left and right sections */
+.users, .ranking {
+  flex: 1; /* Equal width for left and right sections */
+  padding: 10px; /* Add some padding */
+  max-width: 250px; /* Limit the width of user and ranking sections */
+}
+
+/* Styling for the posts section */
+.posts {
+  flex: 2; /* Wider than users and ranking sections */
+  padding: 10px;
+}
+
+/* Adjust list styling */
+ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+}
+
+h2 {
+  text-align: center; /* Center headers */
+}
 </style>

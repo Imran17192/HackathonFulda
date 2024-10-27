@@ -65,4 +65,16 @@ public class File {
         public void setPostId(Long postId) {
             this.postId = postId;
         }
+
+        @Override
+        public String toString() {
+            return "File{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", path='" + path + '\'' +
+                    ", type='" + type + '\'' +
+                    ", size=" + size +
+                    ", postId=" + postId +
+                    '}';
+        }
 }

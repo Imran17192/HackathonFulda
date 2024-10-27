@@ -44,6 +44,8 @@
 import {ref} from 'vue';
 import Vue3TagsInput from 'vue3-tags-input';
 import axios from "axios";
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   components: {
@@ -55,6 +57,8 @@ export default {
     const content = ref('');
     const showFileUpload = ref(false);
     const files = ref([]);
+    const store = useStore();
+    const username = computed(() => store.getters.username);
 
     const toggleFileUpload = () => {
       showFileUpload.value = !showFileUpload.value;
@@ -78,12 +82,14 @@ export default {
         tags: tags.value,
         content: content.value,
         files: files.value,
+        username: username.value,
       });
 
       const formData = new FormData();
       formData.append('subject', subject.value);
       formData.append('tags', tags.value.join(','));
       formData.append('content', content.value);
+      formData.append('username', username.value);
       files.value.forEach((file) => {
         formData.append('files', file);
       });
