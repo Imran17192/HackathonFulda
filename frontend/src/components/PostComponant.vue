@@ -2,7 +2,8 @@
     <div class="social-post">
         <div class="post-header">
             <div class="profile-info">
-                <img src="@/assets/profile-photo.png" alt="Profile" class="profile-photo">
+                <img src="@/assets/default.png" alt="Profile" class="profile-photo">
+
                 <p><strong> &nbsp;Alexander Geißenbergger</strong> | 25. Juli um 15:15</p>
         </div>
             <div class="header-text">
