@@ -46,7 +46,7 @@ public class AppRunner implements CommandLineRunner {
     public void run(String... args) {
         FileEntity file = new FileEntity();
         file.setPath("test");
-        fileService.createFile(file);
+        fileService.saveFile(file);
 
         UserEntity user = new UserEntity();
         user.setEmail("JaneDoe@example.com");
@@ -65,7 +65,6 @@ public class AppRunner implements CommandLineRunner {
         connectionService.createConnection(user.createConnection(post, author_type));
 
         postService.updatePost(post);
-        }
     }
 
 }

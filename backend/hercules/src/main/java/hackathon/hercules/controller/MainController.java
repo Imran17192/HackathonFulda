@@ -1,10 +1,10 @@
 package hackathon.hercules.controller;
 
-import hackathon.hercules.entity.Post;
-import hackathon.hercules.entity.Tag;
-import hackathon.hercules.entity.User;
+import hackathon.hercules.entity.*;
 import hackathon.hercules.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
@@ -28,15 +28,21 @@ public class MainController {
     private final FileService fileService;
     private final TagService tagService;
     private final UserService userService;
+    private final MetaDataService metaDataService;
+    private final ConnectionTypeService connectionTypeService;
+    private final ConnectionService connectionService;
 
     @Autowired
     public MainController(AuthService authService, PostService postService, FileService fileService,
-                          TagService tagService, UserService userService) {
+                          TagService tagService, UserService userService, MetaDataService metaDataService, ConnectionService connectionService, ConnectionTypeService connectionTypeService) {
         this.authService = authService;
         this.postService = postService;
         this.fileService = fileService;
         this.tagService = tagService;
         this.userService = userService;
+        this.metaDataService = metaDataService;
+        this.connectionService = connectionService;
+        this.connectionTypeService = connectionTypeService;
     }
 
     @PostMapping("/signup")
@@ -75,18 +81,21 @@ public class MainController {
                                   @RequestParam(required = false) List<MultipartFile> files) {
         try {
 
-            User user = userService.getUserByEmail(username);
+            UserEntity user = userService.getUserByEmail(username);
 
-            Post post = new Post();
-            post.setTitle(subject);
-            post.setContent(content);
+            PostEntity post = new PostEntity();
+
+            metaDataService.updateMetaData(post.createMetaData("title", username));
+
+            post.setText(content);
             if(user != null) {
-                post.setAuthor(user.getFirstName() + " " + user.getLastName());
+                var created = connectionTypeService.getConnectionTypeById((long) 1);
+
+                connectionService.createConnection(user.createConnection(post, created));
+                //metaDataService.updateMetaData(post.createMetaData("author", metaDataService.getMetaDataByOwnerAndKey(user, "firstName") + " " + metaDataService.getMetaDataByOwnerAndKey(user, "lastName"));
             }
-            else {
-                post.setAuthor("anonymous user");
-            }
-            postService.savePost(post);
+
+            postService.updatePost(post);
             for (String tag : tags) {
                 Tag tagEntity = new Tag();
                 tagEntity.setName(tag);
@@ -120,7 +129,7 @@ public class MainController {
     @GetMapping("/posts")
     public ResponseEntity<?> getPosts() {
         try {
-            List<Post> posts = postService.getAllPosts();
+            List<PostEntity> posts = postService.getAllPosts();
             return ResponseEntity.ok(posts);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AuthResponse("Failed to fetch posts", false));
@@ -130,7 +139,7 @@ public class MainController {
     @GetMapping("/posts/{id}")
     public ResponseEntity<?> getPost(@PathVariable Long id) {
         try {
-            Post post = postService.getPostById(id);
+            var post = postService.getPostById(id);
             return ResponseEntity.ok(post);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AuthResponse("Failed to fetch post", false));
@@ -163,10 +172,11 @@ public class MainController {
             String country = payload.get("country");
             String bio = payload.get("bio");
             System.out.println(id);
-            User user = userService.getUserById(Long.valueOf(id));
-            user.setCity(city);
-            user.setCountry(country);
-            user.setBio(bio);
+            UserEntity user = userService.getUserById(Long.valueOf(id));
+            metaDataService.updateMetaData(user.createMetaData("city", city));
+            metaDataService.updateMetaData(user.createMetaData("country", country));
+            metaDataService.updateMetaData(user.createMetaData("bio", bio));
+
             userService.updateUser(user);
             return ResponseEntity.ok(new AuthResponse("User updated successfully", true));
         } catch (Exception e) {

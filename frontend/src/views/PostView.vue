@@ -33,10 +33,9 @@
     <div class="input-group">
       <button @click="sendMessage" class="send-button">Send</button>
     </div>
-  </div>
-
-  <div class="input-group">
+    <div class="input-group">
     <button @click="back" class="back-button">Back</button>
+    </div>
   </div>
 </template>
 

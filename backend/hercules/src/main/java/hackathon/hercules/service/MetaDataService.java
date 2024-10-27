@@ -1,6 +1,7 @@
 package hackathon.hercules.service;
 
 import hackathon.hercules.entity.MetaDataEntity;
+import hackathon.hercules.entity.ObjectEntity;
 import hackathon.hercules.repository.MetaDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ public class MetaDataService {
     public MetaDataEntity getMetaDataById(Long id) {
         return repository.findById(id).orElse(null);
     }
+
+    public MetaDataEntity getMetaDataByOwnerAndKey(ObjectEntity ownerObject, String key) { return repository.findByOwnerObjectAndKey(ownerObject, key);}
 
     public MetaDataEntity updateMetaData(MetaDataEntity metaData) {
         return repository.save(metaData);

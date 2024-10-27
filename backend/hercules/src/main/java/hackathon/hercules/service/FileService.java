@@ -21,11 +21,11 @@ public class FileService {
         return fileRepository.existsById(id);
     }
 
-    public void saveFile(File file) {
+    public void saveFile(FileEntity file) {
         fileRepository.save(file);
     }
 
-    public List<File> getAllFiles() {
+    public List<FileEntity> getAllFiles() {
         return fileRepository.findAll();
     }
 }

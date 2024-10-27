@@ -12,6 +12,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MetaDataService metaDataService;
 
     public UserEntity createUser(UserEntity user) {
         return userRepository.save(user);
@@ -25,6 +27,8 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public UserEntity getUserByEmail(String email) {return userRepository.findByEmail(email); }
+
     public UserEntity updateUser(UserEntity user) {
         return userRepository.save(user);
     }
@@ -33,9 +37,9 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
+//    public UserEntity updateUser(UserEntity user) {
+//        return userRepository.save(user);
+//    }
 
     public boolean isUserExists(Long id) {
         return userRepository.existsById(id);
@@ -46,10 +50,12 @@ public class UserService {
     }
 
     public void incrementTreeCount(Long id) {
-        User user = userRepository.findById(id).orElse(null);
+        UserEntity user = userRepository.findById(id).orElse(null);
         System.out.println("test1");
         if (user != null) {
-            user.setTreeCount(user.getTreeCount() + 1);
+            var tc = metaDataService.getMetaDataByOwnerAndKey(user, "tree_count");
+            metaDataService.deleteMetaData(tc.getId());
+            metaDataService.updateMetaData(user.createMetaData("tree_count", (Long.parseLong(tc.getValue())+1) + ""));
             System.out.println("test2");
             userRepository.save(user);
             System.out.println("test3");

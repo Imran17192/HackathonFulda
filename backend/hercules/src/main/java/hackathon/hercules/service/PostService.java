@@ -34,6 +34,6 @@ public class PostService {
     }
 
     public boolean isPostExists(Long id) {
-        return postRepository.existsById(id);
+        return repository.existsById(id);
     }
 }
